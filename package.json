@@ -4,10 +4,14 @@
   "description": "A Reddit-like application for users to discuss and share content",
   "main": "\u001b[D\u001bsrc/server.js)",
   "scripts": {
-    "test": "set NODE_ENV=test && jasmine",
+    "test": "cross-env NODE_ENV=test node ./node_modules/jasmine/bin/jasmine.js",
     "start": "node src/server.js"
   },
   "author": "Mariel",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mariel33/bloccit"
+  },
   "license": "ISC",
   "devDependencies": {
     "cross-env": "^5.1.6",
@@ -17,6 +21,9 @@
   "dependencies": {
     "dotenv": "^5.0.0",
     "ejs": "^2.5.7",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "pg": "^7.4.1",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.32.6"
   }
 }
