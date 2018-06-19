@@ -2,10 +2,10 @@
   "name": "bloccit",
   "version": "1.0.0",
   "description": "A Reddit-like application for users to discuss and share content",
-  "main": "\u001b[D\u001bsrc/server.js)",
+  "main": "./src/server.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test node ./node_modules/jasmine/bin/jasmine.js",
-    "start": "cross-env node src/server.js"
+    "start": "node src/server.js"
   },
   "author": "Mariel",
   "repository": {
@@ -19,6 +19,7 @@
     "request": "^2.83.0"
   },
   "dependencies": {
+    "body-parser": "^1.18.2",
     "dotenv": "^5.0.0",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
