@@ -14,7 +14,8 @@ module.exports = {
       callback(err);
     })
   },
-  addTopic(newTopic, callback){
+
+  addTopic(newTopic, callback) {
     return Topic.create({
       title: newTopic.title,
       description: newTopic.description
