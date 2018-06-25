@@ -5,7 +5,7 @@ module.exports = {
     getAllAdvertisements(callback) {
         return Advertisement.all()
             .then((advertisements) => {
-                callback(null, topics);
+                callback(null, advertisements);
             })
 
             .catch((err) => {
@@ -13,6 +13,41 @@ module.exports = {
             });
 
 
+    },
+
+    addAdvertisement(newAdvertisement, callback){
+        return Advertisement.create({
+            title: newAdvertisement.title,
+            description: newAdvertisement.description
+        })
+        .then((advertisement) => {
+            callback(null, advertisement);
+        })
+        .catch((err) => {
+            callback(err);
+        })
+    },
+
+    getAdvertisement(id, callback) {
+        return Advertisement.findById(id)
+        .then((advertisement) => {
+            callback(null, advertisement);
+        })
+        .catch((err) => {
+            callback(err);
+        })
+    },
+
+    deleteAdvertisement(id, callback) {
+        return Advertisement.destroy({
+            where: {id}
+        })
+        .then((advertisement) => {
+            callback(null, advertisement);
+        })
+        .catch((err) => {
+            callback(err);
+        })
     }
 
 
