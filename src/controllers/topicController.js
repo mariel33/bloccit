@@ -6,7 +6,7 @@ module.exports = {
       if (err) {
         res.redirect(500, "static/index");
       } else {
-        res.render("Topics/index", { topics });
+        res.render("topics/index", { topics });
       }
     })
   },
