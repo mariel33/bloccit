@@ -11,7 +11,7 @@ describe("Vote", () => {
         this.user;
         this.topic;
         this.post;
-        this.voite;
+        this.vote;
 
         sequelize.sync({ force: true }).then((res) => {
 
@@ -212,7 +212,7 @@ describe("Vote", () => {
             })
                 .then((vote) => {
                     this.comment.getPost()
-                    then((associatedPost) => {
+                    .then((associatedPost) => {
                         expect(associatedPost.title).toBe("My first visit to Proxima Centauri b");
                         done();
                     });
@@ -221,6 +221,93 @@ describe("Vote", () => {
                     console.log(err);
                     done();
                 });
+        });
+    });
+
+    describe("#getPoints()", () => {
+
+        it("should return the points for the associated post", (done) => {
+            Vote.create({
+                value:1,
+                userId: this.user.id,
+                postId: this.post.id
+            })
+            .then((votes) => {
+                this.post.getPoints()
+                .then((associatedPost) => {
+                    expect(this.votes).toBe(1);
+                    done();
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+                done();
+            })
+
+
+        });
+
+        it("should return 0 if there are no points associated with the post", (done) => {
+            Vote.create({
+                userId: this.user.id,
+                postId: this.post.id,
+            })
+            .then((votes) => {
+                this.post.getPoints()
+                .then((associatedPost) => {
+                    expect(this.votes).toBe(0);
+                    done();
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+                done();
+            });
+            
+        });
+    });
+
+    describe("#hasUpvoteFor()", () => {
+
+        it("should return true if the associated user has an upvote for the associated post", (done) => {
+            Vote.create({
+                value: 1,
+                userId: this.user.id,
+                postId: this.post.id,
+            })
+            .then((vote) => {
+                vote.postId.hasUpvoteFor()
+                .then((associatedPost) => {
+                    expect(this.vote).toBe(true);
+                    done();
+                })
+            })
+            .catch((err) => {
+                console.log(err);
+                done();
+            });
+        });
+    });
+
+    describe("#hasDownvoteFor()", () => {
+
+        it("should return true if the associated user has a downvote for the associated post", (done) => {
+            Vote.create({
+                value: -1,
+                userId: this.user.id,
+                postId: this.post.id
+            })
+            .then((vote) => {
+                vote.postId.hasDownvoteFor()
+                .then((associatedPost) => {
+                    expect(this.vote).toBe(false);
+                    done();
+                })
+            })
+            .catch((err) => {
+                console.log(err);
+                done();
+            });
         });
     });
 

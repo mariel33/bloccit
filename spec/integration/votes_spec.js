@@ -135,6 +135,52 @@ describe("routes : votes", () => {
                             });
                     });
             });
+
+            it("should not create multiple upvotes per user for a given post", (done) => {
+                const options = {
+                    url: `${base}${this.topic.id}/posts/${this.post.id}/votes/upvote/1`
+                };
+                request.get(options,
+                (err, res, body) => {
+                    Vote.findOne({
+                        where: {
+                            value: 1,
+                            userId: this.user.id,
+                            postId: this.post.id
+                        }
+                    })
+                        .then((vote) => {
+                            expect(vote).toBeNull();
+                            done();
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            done();
+                        });
+                });
+            });
+
+            it("should note create an upvote with a value of anything but 1", (done) => {
+                const options = {
+                    url: `${base}${this.topic.id}/posts/${this.post.id}/votes/upvote`
+                };
+                request.get(options,
+                (err, res, body) => {
+                    Vote.findOne({
+                        where: {
+                            value: 0
+                        }
+                    })
+                    .then((vote) => {
+                        expect(vote).toBeNull();
+                        done();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        done();
+                    });
+                });
+            });
         });
 
         describe("GET /topics/:topicId/posts/:postId/votes/downvote", () => {
@@ -163,6 +209,52 @@ describe("routes : votes", () => {
                                 done();
                             });
                     });
+            });
+
+            it("should not create multiple downvotes per user for a given post", (done) => {
+                const options = {
+                    url: `${base}${this.topic.id}/posts/${this.post.id}/votes/downvote/-1`
+                };
+                request.get(options,
+                (err, res, body) => {
+                    Vote.findOne({
+                        where: {
+                            value: -1,
+                            userId: this.user.id,
+                            postId: this.post.id
+                        }
+                    })
+                        .then((vote) => {
+                            expect(vote).toBeNull();
+                            done();
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            done();
+                        });
+                });
+            });
+
+            it("should note create a downvote with a value of anything but -1", (done) => {
+                const options = {
+                    url: `${base}${this.topic.id}/posts/${this.post.id}/votes/downvote`
+                };
+                request.get(options,
+                (err, res, body) => {
+                    Vote.findOne({
+                        where: {
+                            value: -2
+                        }
+                    })
+                    .then((vote) => {
+                        expect(vote).toBeNull();
+                        done();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        done();
+                    });
+                });
             });
         });//end of context for signed-in user
     });
