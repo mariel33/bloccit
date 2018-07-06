@@ -6,6 +6,7 @@ module.exports = {
     },
 
     create(req, res, next) {
+        console.log("create");
         let newPost = {
             title: req.body.title,
             body: req.body.body,
