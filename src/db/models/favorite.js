@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   }, {});
-  Favorite.associate = function(models) {
+  Favorite.associate = function (models) {
     // associations can be defined here
     Favorite.belongsTo(models.Post, {
       foreignKey: "postId",
@@ -21,6 +21,15 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "userId",
       onDelete: "CASCADE"
     });
+    Favorite.addScope("allFor", (userId) => {
+      return {
+        include: [{
+          model: models.Post
+        }],
+        where: { userId: userId },
+        order: [["createdAt", "DESC"]]
+      }
+    })
   };
   return Favorite;
 };
